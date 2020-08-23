@@ -1,4 +1,7 @@
 import face_recognition
+import json
+import numpy as np
+import os
 from PIL import Image, ImageDraw
 
 
@@ -37,4 +40,16 @@ def label_faces(img, known_encodings, known_names):
 		draw.rectangle(((left, bottom-textheight-10), (right, bottom)), fill=(0,0,0), outline = (0,0,0))
 		draw.text((left+10, bottom - textheight - 5), name, fill = (255,255,255,255))
 	del draw
-	 
+def add_labels(list_of_img_files, list_of_labels, file_to_write = "./labels.json", overwrite = True):
+	with open(file_to_write,'r') as f:
+		data = json.loads(f.read())
+	for label, img in zip(list_of_labels, list_of_img_files):
+		if label in data:
+			if overwrite:
+				data[label] = img
+		else:
+			data[label] = img
+	#write to JSON
+
+def pull_labels(file = "./labels.json"):
+
