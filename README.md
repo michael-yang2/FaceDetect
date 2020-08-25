@@ -1,4 +1,4 @@
-# Face_Recognition
+# FaceDetect
 
 Face_Recognition is a collection of scripts to extract, compare, and label faces within photos
 
