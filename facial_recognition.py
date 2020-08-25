@@ -61,9 +61,11 @@ def add_labels(list_of_img_files, list_of_labels, file_to_write = "./labels.json
 		if label in data["labels"]:
 			if overwrite:
 				idx = data["labels"].index(label)
-			else:
-				data["labels"].append(label)
-				data["encodings"].append(face_recognition.face_encodings(load_image(img_file)))
+				data["labels"][idx] = label
+				data["encodings"][idx] = face_recognition.face_encodings(load_image(img_file))
+		else:
+			data["labels"].append(label)
+			data["encodings"].append(face_recognition.face_encodings(load_image(img_file)))
 	with open(file_to_write, "wt") as fp:
 		json.dump(data, fp)
 
