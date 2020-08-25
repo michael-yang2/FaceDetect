@@ -70,6 +70,15 @@ def add_labels(list_of_img_files, list_of_labels, file_to_write = "./labels.json
 		json.dump(data, fp)
 
 def pull_labels(file = "./labels.json"):
+	known_names = []
+	known_encodings = []
+	try:
+		with open(file,'r') as f:
+			data = json.loads(f.read())
+	except IOError:
+		print("File not found")
+		return [[],[]]
+	return [data["labels"],data["encodings"]]
 
 
 
