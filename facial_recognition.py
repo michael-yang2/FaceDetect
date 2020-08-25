@@ -47,7 +47,6 @@ def add_labels(list_of_img_files, list_of_labels, file_to_write = "./labels.json
 	"labels":[]
 	"encodings":[]
 	}
-	#TODO: Save encodings for later?
 	"""
 	try:
 		with open(file_to_write,'r') as f:
