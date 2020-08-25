@@ -41,14 +41,20 @@ def label_faces(img, known_encodings, known_names):
 		draw.text((left+10, bottom - textheight - 5), name, fill = (255,255,255,255))
 	del draw
 def add_labels(list_of_img_files, list_of_labels, file_to_write = "./labels.json", overwrite = True):
-	with open(file_to_write,'r') as f:
-		data = json.loads(f.read())
+	try:
+		with open(file_to_write,'r') as f:
+			data = json.loads(f.read())
+	except IOError:
+		data = {}
+		print("Existing file not found. Creating file "+file_to_write)
 	for label, img in zip(list_of_labels, list_of_img_files):
 		if label in data:
 			if overwrite:
 				data[label] = img
 		else:
 			data[label] = img
+	with open(file_to_write, "wt") as fp:
+		json.dump(data, fp)
 	#write to JSON
 
 def pull_labels(file = "./labels.json"):
