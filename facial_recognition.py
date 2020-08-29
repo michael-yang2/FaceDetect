@@ -19,13 +19,13 @@ def compare_faces(list_of_training_imgs, img2):
 	face2 = face_recognition.face_encodings(img2)[0]
 	return face_recognition.compare_faces(face,face2, tolerance = 0.6)
 def pull_faces(img):
-	face_locations = get_face_locations(image)
+	face_locations = get_face_locations(img)
 	for face in face_locations:
 		top, right, bottom, left = face
 		cropped = img[top:bottom, left:right]
 		pil_img = Image.fromarray(cropped)
 		pil_img.save(f'{top}.jpg')
-def label_faces(img, known_encodings, known_names,file_to_write):
+def label_faces(img, known_encodings, known_names,file_to_write = None):
 	face_locations = get_face_locations(img)
 	face_encodings = face_recognition.face_encodings(img,face_locations)
 	pil_img = Image.fromarray(img)
@@ -40,8 +40,10 @@ def label_faces(img, known_encodings, known_names,file_to_write):
 		text_width, text_height = draw.textsize(name)
 		draw.rectangle(((left, bottom-text_height-10), (right, bottom)), fill=(0,0,0), outline = (0,0,0))
 		draw.text((left+10, bottom - text_height - 5), name, fill = (255,255,255,255))
-	pil_img.save(file_to_write)
+	if file_to_write:
+		pil_img.save(file_to_write)
 	del draw
+	return np.array(pil_img)
 def add_labels(list_of_img_files, list_of_labels, file_to_write = "./labels.json", overwrite = True):
 	"""
 	Creates (or writes to) JSON File in the format: {

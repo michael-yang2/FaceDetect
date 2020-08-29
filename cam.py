@@ -8,9 +8,7 @@ while(True):
     ret, frame = cap.read()
     rgb_frame = frame[:, :, ::-1]
 
-    
-    cv2.imshow('frame', frame)
-    cv2.imshow('gray', facial_recognition.label_faces(gray, [], [], ""))
+    cv2.imshow('labelled', facial_recognition.label_faces(rgb_frame, [], []))
     
     k = cv2.waitKey(30) & 0xff
     if k == 27: # press 'ESC' to quit
