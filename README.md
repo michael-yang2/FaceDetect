@@ -6,6 +6,8 @@ Add labels to pictures, store/edit labels, compare faces and more!
 
 More features to come
 
-# TODO:
+Ver1: Using face_recognition library
 
-Scrape FaceBook for tagged photos, to be used in conjunction w/ FaceDetect
+Ver2: Using OpenCV's CascadeClassifier
+
+# TODO:
