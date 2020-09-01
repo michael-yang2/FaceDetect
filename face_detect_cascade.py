@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os
 
 cascPath = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
 eyePath = cv2.data.haarcascades + 'haarcascade_eye.xml'
@@ -38,3 +39,8 @@ def detect_faces_cam():
           break
     video_capture.release()
     cv2.destroyAllWindows()
+def make_recognizer(file):
+    recognizer = cv2.face.LBPHFaceRecognizer_create()
+    if os.path.exists(file):
+        recognizer.read(file)
+    return recognizer
