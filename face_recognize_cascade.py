@@ -1,3 +1,4 @@
+import argparse
 import cv2
 import numpy as np
 import os
@@ -7,8 +8,6 @@ cascPath = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
 eyePath = cv2.data.haarcascades + 'haarcascade_eye.xml'
 smilePath = cv2.data.haarcascades + 'haarcascade_smile.xml'
 valid_images = [".jpg",".gif",".png",".jpeg",".JPG"]
-
-
 
 def rgb2gray(rgb):
     r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
@@ -26,14 +25,30 @@ def train(imgs, labels, trainer_path = 'trainer/trainer.yml'):
     recognizer.train(np.array(faceSamples), np.array(labels))
     recognizer.save(trainer_path)
     return recognizer
-def run():
-    f = open('./labels/labels.txt', 'r') 
-    labels = [int(s.strip()) for s in f.readlines()] 
+def get_imgs_and_labels(file_path):
+    labels = []
     imgs = []
-    for img_file in sorted(os.listdir('./training_data')):
-        ext = os.path.splitext(img_file)[1]
-        if ext.lower() not in valid_images:
-            continue
-        imgs.append(facial_recognition.load_image('./training_data/'+img_file))
-    train(imgs, np.array(labels))
-run()
+    for name in os.listdir(file_path):
+        curr_imgs = os.path.join(file_path, name)
+        curr_label = hash(name)
+        if os.path.isdir(curr_imgs):
+            for img_file in os.listdir(curr_imgs):
+                img = facial_recognition.load_image(os.path.join(curr_imgs, img_file))
+                imgs.append(img)
+                labels.append(curr_label)
+    return (imgs, labels)
+def run(file_path):
+    imgs, labels = get_imgs_and_labels(file_path)
+    recognizer = train(imgs, labels)
+
+
+def main():
+    global args
+    parser = argparse.ArgumentParser(description='...')
+    parser.add_argument("-f", "--file_path",
+                    help="training data files",
+                    type=str, default="./training_data")
+    args = parser.parse_args()
+    run(args.file_path)
+if __name__ == "__main__":
+    main()
