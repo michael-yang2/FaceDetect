@@ -11,3 +11,4 @@ Ver1: Using face_recognition library
 Ver2: Using OpenCV's CascadeClassifier
 
 # TODO:
+real time face recognition/classification using OpenCV 
