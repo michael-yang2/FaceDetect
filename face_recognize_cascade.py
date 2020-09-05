@@ -40,8 +40,6 @@ def get_imgs_and_labels(file_path):
 def run(file_path):
     imgs, labels = get_imgs_and_labels(file_path)
     recognizer = train(imgs, labels)
-
-
 def main():
     global args
     parser = argparse.ArgumentParser(description='...')
