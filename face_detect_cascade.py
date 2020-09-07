@@ -29,7 +29,7 @@ def detect_faces_cam(recognizer):
         for (x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 3)
             roi_gray = gray[y:y+h, x:x+w]
-            predicted = recognizer.predict(roi_gray)
+            predicted, loss = recognizer.predict(roi_gray)
             roi_color = frame[y:y+h, x:x+w]
             cv2.putText(frame,'Face',(x, y), font, 2,(255,0,0),5)
 
